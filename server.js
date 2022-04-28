@@ -66,15 +66,48 @@ function  viewAllEmployees(){
 
 
 function addDepartment(){
+inquirer.prompt({
+  type: 'input',
+  name: 'name',
+  message: "What is the name of the new department?"
+})
+.then(function(value){
+db.query("INSERT INTO department (name) VALUES (?)", [value.name], function(err, data){
+  if (err) throw err
+ viewAllDepartments()
+})
+})
 
 }
 
 
+function addRole(){
+  inquirer.prompt([{
+    type: 'input',
+    name: 'role',
+   message: "What is the name of the new role?"
+
+
+  },{
+    type: 'input',
+    name: "salary",
+    message: "What is the salary?"
+  },{
+type: 'list',
+name: 'department_id',
+message: 'which depart will it go into?'
+  choices: [{name:"sales", value:1}, {name: "warehouse", value:2}, {name: "accounting", value:3}]
+  }])
+.then(function(value){
+db.query("INSERT INTO role (title, salary, department_id) VALUES (?,?,?)", [value.title, value.salary, value.department_id], function(err, data){
+  if (err) throw err
+  viewAllRoles()
+})
+})
 
 
 
-
-  
+} 
 
 
 
